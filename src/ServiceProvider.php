@@ -8,12 +8,11 @@ use Iterator;
 use SplPriorityQueue;
 use Zend\Stdlib\SplPriorityQueue as ZendPriorityQueue;
 
-class ServiceProvider implements ServiceProviderInterface
-{
-	public function getServices()
-	{
+class ServiceProvider implements ServiceProviderInterface {
+
+	public function getServices() {
 		return [
-			DispatcherInterface::class       => [$this, "createDispatcher"],
+			DispatcherInterface::class => [$this, "createDispatcher"],
 			MiddlewareIteratorService::class => [$this, "createMiddlewareIteratorService"],
 		];
 	}
@@ -25,8 +24,7 @@ class ServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return \ResumeNext\Dispatcher\DispatcherInterface
 	 */
-	public function createDispatcher(ContainerInterface $container): DispatcherInterface
-	{
+	public function createDispatcher(ContainerInterface $container): DispatcherInterface {
 		return new Dispatcher(
 			$this->createIterator($container)
 		);
@@ -39,8 +37,7 @@ class ServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return \Iterator
 	 */
-	protected function createIterator(ContainerInterface $container): Iterator
-	{
+	protected function createIterator(ContainerInterface $container): Iterator {
 		$iterator = $container->get(MiddlewareIteratorService::class);
 
 		return new CallbackIteratorIterator($iterator, [$container, "get"]);
@@ -50,6 +47,7 @@ class ServiceProvider implements ServiceProviderInterface
 	 * Create a default iterator for use with Dispatcher if one doesn't exist
 	 *
 	 * @param \Interop\Container\ContainerInterface $container
+	 * @param callable|null                         $getPrevious
 	 *
 	 * @return \Iterator
 	 */
@@ -57,7 +55,7 @@ class ServiceProvider implements ServiceProviderInterface
 		ContainerInterface $container,
 		callable $getPrevious = null
 	): Iterator {
-		return is_null($getPrevious)
+		return ($getPrevious === null)
 			? $this->createPriorityQueue()
 			: call_user_func($getPrevious);
 	}
@@ -67,8 +65,7 @@ class ServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return \SplPriorityQueue
 	 */
-	protected function createPriorityQueue()
-	{
+	protected function createPriorityQueue() {
 		// ZF2+ fixes the ordering of multiple same priorities
 		$implementation = class_exists(ZendPriorityQueue::class)
 			? ZendPriorityQueue::class
@@ -80,4 +77,7 @@ class ServiceProvider implements ServiceProviderInterface
 
 		return $ret;
 	}
+
 }
+
+/* vi:set ts=4 sw=4 noet: */

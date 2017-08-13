@@ -8,6 +8,7 @@ namespace ResumeNext\Dispatcher;
  * -The corresponding service must be an object that implements
  * Iterator and should iterate over valid container identifiers-
  */
-abstract class MiddlewareIteratorService
-{
+abstract class MiddlewareIteratorService {
 }
+
+/* vi:set ts=4 sw=4 noet: */

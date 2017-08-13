@@ -7,8 +7,8 @@ use Iterator;
 /**
  * Iterator that invokes a callback for each value
  */
-class CallbackIteratorIterator implements Iterator
-{
+class CallbackIteratorIterator implements Iterator {
+
 	/** @var callable */
 	protected $callback;
 
@@ -17,9 +17,10 @@ class CallbackIteratorIterator implements Iterator
 
 	/**
 	 * Handle object cloning
+	 *
+	 * @return void
 	 */
-	public function __clone()
-	{
+	public function __clone() {
 		$this->iterator = clone $this->iterator;
 	}
 
@@ -29,34 +30,31 @@ class CallbackIteratorIterator implements Iterator
 	 * @param \Iterator $iterator Inner iterator
 	 * @param callable  $callback function(mixed $value): mixed
 	 */
-	public function __construct(Iterator $iterator, callable $callback)
-	{
+	public function __construct(Iterator $iterator, callable $callback) {
 		$this->callback = $callback;
 		$this->iterator = $iterator;
 	}
 
-	public function current()
-	{
+	public function current() {
 		return call_user_func($this->callback, $this->iterator->current());
 	}
 
-	public function key()
-	{
+	public function key() {
 		return $this->iterator->key();
 	}
 
-	public function next()
-	{
+	public function next() {
 		$this->iterator->next();
 	}
 
-	public function rewind()
-	{
+	public function rewind() {
 		$this->iterator->rewind();
 	}
 
-	public function valid()
-	{
+	public function valid() {
 		return $this->iterator->valid();
 	}
+
 }
+
+/* vi:set ts=4 sw=4 noet: */

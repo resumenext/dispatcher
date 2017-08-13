@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ruleset name="Resume Next Coding Standard">
+	<arg value="p"/>
+	<file>./src</file>
+	<file>./test</file>
+	<rule ref="./vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml">
+		<exclude name="PSR2.Namespaces.UseDeclaration.MultipleDeclarations"/>
+		<exclude name="PSR2R.Commenting.DocBlockPipeSpacing"/>
+		<exclude name="PSR2R.Commenting.DocComment.ContentAfterOpen"/>
+		<exclude name="PSR2R.Commenting.DocComment.ContentBeforeClose"/>
+		<exclude name="PSR2R.Commenting.DocComment.SpacingBeforeShort"/>
+		<exclude name="PSR2R.Commenting.DocComment.SpacingBeforeTags"/>
+		<exclude name="PSR2R.Namespaces.NoInlineFullyQualifiedClassName.New"/>
+		<exclude name="PSR2R.Namespaces.NoInlineFullyQualifiedClassName.Static"/>
+		<exclude name="PSR2R.Namespaces.UseDeclaration.MultipleDeclarations"/>
+		<exclude name="PSR2R.PHP.SingleQuote"/>
+	</rule>
+</ruleset>

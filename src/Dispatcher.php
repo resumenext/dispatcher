@@ -13,8 +13,8 @@ use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
  * dispatch middleware while you're dispatching middleware.
  * (Assuming the given middleware instances are also safe.)
  */
-class Dispatcher implements DispatcherInterface, MiddlewareInterface
-{
+class Dispatcher implements DispatcherInterface, MiddlewareInterface {
+
 	/** @var \Iterator */
 	protected $middleware;
 
@@ -23,9 +23,10 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 
 	/**
 	 * Handle object cloning
+	 *
+	 * @return void
 	 */
-	public function __clone()
-	{
+	public function __clone() {
 		$this->middleware = clone $this->middleware;
 
 		$this->middleware->rewind();
@@ -36,8 +37,7 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 	 *
 	 * @param \Iterator $middleware Values must be instances of MiddlewareInterface
 	 */
-	public function __construct(Iterator $middleware)
-	{
+	public function __construct(Iterator $middleware) {
 		$this->middleware = $middleware;
 	}
 
@@ -56,8 +56,7 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 		return new $implementation($callback);
 	}
 
-	public function dispatch(ServerRequestInterface $request): ResponseInterface
-	{
+	public function dispatch(ServerRequestInterface $request): ResponseInterface {
 		return $this->run($request);
 	}
 
@@ -66,8 +65,7 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 	 *
 	 * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
 	 */
-	protected function getMiddleware()
-	{
+	protected function getMiddleware() {
 		$ret = null;
 
 		if ($this->middleware->valid()) {
@@ -84,8 +82,7 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 	 *
 	 * @return \Psr\Http\Message\ServerRequestInterface
 	 */
-	protected function getRequest()
-	{
+	protected function getRequest() {
 		return $this->request;
 	}
 
@@ -123,7 +120,7 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 			$response = $that->step();
 		}
 		catch (Exception\OutOfMiddlewareException $ex) {
-			if (is_null($delegate)) {
+			if ($delegate === null) {
 				throw $ex;
 			}
 
@@ -140,10 +137,9 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request
 	 *
-	 * @return self
+	 * @return $this
 	 */
-	protected function setRequest(ServerRequestInterface $request)
-	{
+	protected function setRequest(ServerRequestInterface $request) {
 		$this->request = $request;
 
 		return $this;
@@ -155,11 +151,10 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 	 * @return \Psr\Http\Message\ResponseInterface
 	 * @throws \ResumeNext\Dispatcher\Exception\OutOfMiddlewareException
 	 */
-	protected function step(): ResponseInterface
-	{
+	protected function step(): ResponseInterface {
 		$current = $this->getMiddleware();
 
-		if (!is_null($current)) {
+		if ($current !== null) {
 			$delegate = $this->createDelegate(
 				function(ServerRequestInterface $request) {
 					return $this->setRequest($request)->step();
@@ -175,4 +170,7 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface
 			"Middleware iterator exhausted."
 		);
 	}
+
 }
+
+/* vi:set ts=4 sw=4 noet: */
