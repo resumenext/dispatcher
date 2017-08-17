@@ -41,6 +41,17 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface {
 		$this->middleware = $middleware;
 	}
 
+	public function dispatch(ServerRequestInterface $request): ResponseInterface {
+		return $this->run($request);
+	}
+
+	public function process(
+		ServerRequestInterface $request,
+		DelegateInterface $delegate
+	) {
+		return $this->run($request, $delegate);
+	}
+
 	/**
 	 * Create a Delegate object
 	 *
@@ -54,10 +65,6 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface {
 		string $implementation = Delegate::class
 	): DelegateInterface {
 		return new $implementation($callback);
-	}
-
-	public function dispatch(ServerRequestInterface $request): ResponseInterface {
-		return $this->run($request);
 	}
 
 	/**
@@ -84,13 +91,6 @@ class Dispatcher implements DispatcherInterface, MiddlewareInterface {
 	 */
 	protected function getRequest() {
 		return $this->request;
-	}
-
-	public function process(
-		ServerRequestInterface $request,
-		DelegateInterface $delegate
-	) {
-		return $this->run($request, $delegate);
 	}
 
 	/**
