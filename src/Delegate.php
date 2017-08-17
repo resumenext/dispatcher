@@ -3,6 +3,7 @@
 namespace ResumeNext\Dispatcher;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Delegate implements DelegateInterface {
 
