@@ -31,19 +31,6 @@ class ServiceProvider implements ServiceProviderInterface {
 	}
 
 	/**
-	 * Create an iterator for use with Dispatcher
-	 *
-	 * @param \Interop\Container\ContainerInterface $container
-	 *
-	 * @return \Iterator
-	 */
-	protected function createIterator(ContainerInterface $container): Iterator {
-		$iterator = $container->get(MiddlewareIteratorService::class);
-
-		return new CallbackIteratorIterator($iterator, [$container, "get"]);
-	}
-
-	/**
 	 * Create a default iterator for use with Dispatcher if one doesn't exist
 	 *
 	 * @param \Interop\Container\ContainerInterface $container
@@ -58,6 +45,19 @@ class ServiceProvider implements ServiceProviderInterface {
 		return ($getPrevious === null)
 			? $this->createPriorityQueue()
 			: call_user_func($getPrevious);
+	}
+
+	/**
+	 * Create an iterator for use with Dispatcher
+	 *
+	 * @param \Interop\Container\ContainerInterface $container
+	 *
+	 * @return \Iterator
+	 */
+	protected function createIterator(ContainerInterface $container): Iterator {
+		$iterator = $container->get(MiddlewareIteratorService::class);
+
+		return new CallbackIteratorIterator($iterator, [$container, "get"]);
 	}
 
 	/**
