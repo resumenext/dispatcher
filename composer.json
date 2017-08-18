@@ -1,0 +1,40 @@
+{
+	"name": "resumenext/dispatcher",
+	"description": "PSR-15 middleware dispatcher",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Resume Next",
+			"email": "resumenext@outlook.com"
+		}
+	],
+	"require": {
+		"php": ">=7.0.0",
+		"psr/http-message": "^1.0",
+		"http-interop/http-middleware": "^0.4.1",
+		"container-interop/container-interop": "^1.2",
+		"container-interop/service-provider": "^0.3.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"ResumeNext\\Dispatcher\\": "src/"
+		}
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^6.3",
+		"fig-r/psr2r-sniffer": "^0.4.1"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"ResumeNext\\DispatcherTest\\": "test/"
+		}
+	},
+	"suggest": {
+		"zendframework/zend-stdlib": "Provides a nicer SplPriorityQueue"
+	},
+	"scripts": {
+		"cs-check": "vendor/bin/phpcs",
+		"cs-fix": "vendor/bin/phpcbf"
+	}
+}
